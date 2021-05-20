@@ -1,19 +1,6 @@
 const path = require('path');
 
 module.exports = {
-	devServer: {
-		https: false,
-		proxy: {
-			'^/api': {
-				target: 'https://mercury.theparadigm.ga',
-				changeOrigin: true,
-				ws: true,
-				cookieDomainRewrite: {
-					'*': ''
-				}
-			}
-		}
-	},
 	transpileDependencies: ['vuetify'],
 	pluginOptions: {
 		electronBuilder: {
@@ -22,30 +9,30 @@ module.exports = {
 			removeElectronJunk: false,
 			nodeIntegration: true,
 			builderOptions: {
-				productName: 'Mercury',
-				appId: 'ga.theparadigm.mercury',
+				productName: 'YouTube Downloader',
+				appId: 'ga.theparadigm.www',
 				mac: {
 					darkModeSupport: true,
 					target: 'dmg'
 				},
 				dmg: {
-					artifactName: 'Mercury-v${version}.${ext}',
-					title: 'Mercury'
+					artifactName: 'YouTube-Downloader-v${version}.${ext}',
+					title: 'YouTube Downloader'
 				},
 				win: {
 					target: 'nsis'
 				},
 				nsis: {
-					artifactName: 'Mercury-v${version}.${ext}',
+					artifactName: 'YouTube-Downloader-v${version}.${ext}',
 					deleteAppDataOnUninstall: true,
-					shortcutName: 'Mercury',
-					uninstallDisplayName: 'Mercury'
+					shortcutName: 'YouTube Downloader',
+					uninstallDisplayName: 'YouTube Downloader'
 				},
 				linux: {
 					target: 'deb'
 				},
 				deb: {
-					artifactName: 'Mercury-v${version}.${ext}'
+					artifactName: 'YouTube-Downloader-v${version}.${ext}'
 				}
 			}
 		}
