@@ -117,7 +117,7 @@
           @click="openVideo()"
           v-ripple
           style="width: calc(100vw - 36px)"
-          :src="video.thumbnails[4].url"
+          :src="video.thumbnails[video.thumbnails.length - 1].url"
         />
         <h5 class="text-h5 my-3">{{ video.title }}</h5>
         <v-row align="center" class="text-center">

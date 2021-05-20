@@ -1,6 +1,6 @@
 {
 	"name": "yt-downloader",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"description": "A lightweight and ad-free YouTube video downloader.",
 	"author": {
@@ -8,7 +8,7 @@
 		"email": "paradigmdevelop@gmail.com"
 	},
 	"homepage": "https://www.theparadigm.ga",
-	"repository": "github:Paradigm-Dev/yt-dowloader",
+	"repository": "github:Paradigm-Dev/yt-downloader",
 	"scripts": {
 		"build": "vue-cli-service electron:build",
 		"serve": "vue-cli-service electron:serve",
