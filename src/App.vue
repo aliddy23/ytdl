@@ -310,9 +310,11 @@ export default {
       }
       if (this.download.type == "audio") {
         result = mimeFilter.find(
-          (format) => format.quality == this.download.resolution
+          (format) => format.audioSampleRate == this.download.resolution
         );
       }
+
+      console.log(result);
 
       shell.openExternal(result.url);
     },
