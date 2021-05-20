@@ -104,21 +104,35 @@
         class="text-h6"
         solo
         v-model="vid"
-        @keyup.enter="search()"
-        @change="reset()"
+        @keyup="
+          vid.includes('https://www.youtube.com/watch?v=')
+            ? (vid_includes_url = true)
+            : (vid_includes_url = false)
+        "
+        @keydown="$event.code == 'Enter' ? search() : reset()"
         :loading="loading"
-        label="ID"
+        :label="vid_includes_url ? 'YouTube URL' : 'Video ID'"
         hide-details
-        prefix="https://www.youtube.com/watch?v="
+        :prefix="vid_includes_url ? '' : 'https://www.youtube.com/watch?v='"
       ></v-text-field>
 
       <div v-if="video" style="margin: 16px">
-        <img
-          @click="openVideo()"
-          v-ripple
-          style="width: calc(100vw - 36px)"
-          :src="video.thumbnails[video.thumbnails.length - 1].url"
-        />
+        <v-hover>
+          <template v-slot:default="{ hover }">
+            <v-img
+              @click="openVideo()"
+              v-ripple
+              style="width: calc(100vw - 36px); cursor: pointer"
+              :src="video.thumbnails[video.thumbnails.length - 1].url"
+            >
+              <v-fade-transition>
+                <v-overlay v-if="hover" absolute color="black">
+                  <v-icon size="50">mdi-play</v-icon>
+                </v-overlay>
+              </v-fade-transition>
+            </v-img>
+          </template>
+        </v-hover>
         <h5 class="text-h5 my-3">{{ video.title }}</h5>
         <v-row align="center" class="text-center">
           <v-col cols="3">
@@ -152,7 +166,7 @@
                   : a_webm_res
               "
               v-model="download.resolution"
-              label="Resolution"
+              :label="download.type == 'video' ? 'Resolution' : 'Bitrate'"
             ></v-select>
           </v-col>
 
@@ -193,6 +207,7 @@ export default {
       format: "",
       resolution: "",
     },
+    vid_includes_url: false,
 
     types: [],
     video_formats: [],
@@ -221,7 +236,9 @@ export default {
     async search() {
       this.loading = true;
       const video = await ytdl.getInfo(
-        `http://www.youtube.com/watch?v=${this.vid}`
+        this.vid_includes_url
+          ? this.vid
+          : `http://www.youtube.com/watch?v=${this.vid}`
       );
       this.video = video.videoDetails;
       this.formats = video.formats;
@@ -268,14 +285,14 @@ export default {
 
       for (let a of awebms) {
         this.a_webm_res.push({
-          text: a.quality,
-          value: a.quality,
+          text: a.audioSampleRate,
+          value: a.audioSampleRate,
         });
       }
       for (let a of amp4s) {
         this.a_mp4_res.push({
-          text: a.quality,
-          value: a.quality,
+          text: a.audioSampleRate,
+          value: a.audioSampleRate,
         });
       }
       this.loading = false;
@@ -300,7 +317,11 @@ export default {
       shell.openExternal(result.url);
     },
     openVideo() {
-      shell.openExternal(`https://www.youtube.com/watch?v=${this.vid}`);
+      shell.openExternal(
+        this.vid_includes_url
+          ? this.vid
+          : `https://www.youtube.com/watch?v=${this.vid}`
+      );
     },
     reset() {
       this.video = false;
