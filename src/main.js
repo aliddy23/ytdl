@@ -7,12 +7,4 @@ Vue.config.productionTip = false;
 new Vue({
   vuetify,
   render: (h) => h(App),
-  data() {
-    return {
-      notify: {
-        is: false,
-        text: "",
-      },
-    };
-  },
 }).$mount("#app");

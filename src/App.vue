@@ -16,7 +16,6 @@
       >
         <div
           key="logo"
-          v-if="!$root.notify.is"
           style="display: inline-flex !important; margin-left: 2px; z-index: 10"
         >
           <img
@@ -25,11 +24,6 @@
           />
           <span style="margin-top: 2px" class="mr-2">YouTube Downloader</span>
         </div>
-        <span
-          key="notification"
-          v-if="$root.notify.is"
-          v-html="$root.notify.text"
-        ></span>
       </v-fade-transition>
 
       <v-spacer></v-spacer>
@@ -53,16 +47,12 @@
       v-if="process.platform == 'darwin'"
       app
       window
-      style="-webkit-app-region: drag"
+      style="-webkit-app-region: drag; user-select: mone"
       height="38"
       color="#CC0000"
     >
       <v-fade-transition group leave-absolute class="ma-auto pt-1">
-        <div
-          key="logo"
-          v-if="!$root.notify.is"
-          style="display: inline-flex !important"
-        >
+        <div key="logo" style="display: inline-flex !important">
           <img
             src="./assets/logo.png"
             style="height: 24px; margin-right: 4px; margin-top: 1px"
@@ -71,12 +61,6 @@
             >YouTube Downloader</span
           >
         </div>
-        <p
-          key="notification"
-          v-if="$root.notify.is"
-          class="mb-1"
-          v-html="$root.notify.text"
-        ></p>
       </v-fade-transition>
     </v-system-bar>
 
@@ -179,6 +163,10 @@
             >
           </v-col>
         </v-row>
+      </div>
+
+      <div v-else class="text-center">
+        <p class="pt-4">Enter a YouTube video URL above to get started!</p>
       </div>
     </v-main>
     <p
@@ -394,7 +382,7 @@ export default {
       this.a_webm_res = [];
     },
   },
-  created() {
+  mounted() {
     ipcRenderer.on("url", (e, url) => {
       this.vid = url.substring(7);
       // if (this.vid.includes("https://www.youtube.com/watch?v="))
