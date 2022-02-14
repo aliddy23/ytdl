@@ -65,22 +65,6 @@
     </v-system-bar>
 
     <v-main>
-      <!-- <v-text-field
-        style="margin: 16px"
-        class="text-h6"
-        solo
-        v-model="vid"
-        @keyup="
-          vid.includes('https://www.youtube.com/watch?v=')
-            ? (vid_includes_url = true)
-            : (vid_includes_url = false)
-        "
-        @keydown="$event.code == 'Enter' ? search() : reset()"
-        :loading="loading"
-        :label="vid_includes_url ? 'YouTube URL' : 'Video ID'"
-        hide-details
-        :prefix="vid_includes_url ? '' : 'https://www.youtube.com/watch?v='"
-      ></v-text-field> -->
       <v-text-field
         style="margin: 16px"
         class="text-h6"
@@ -119,25 +103,7 @@
             >{{ video.author.name }}</a
           >
         </p>
-        <v-row align="baseline" class="text-center">
-          <v-col cols="3">
-            <!-- <v-select
-              :items="types"
-              v-model="download.type"
-              label="Type"
-              @change="(download.format = ''), (download.resolution = '')"
-            ></v-select> -->
-          </v-col>
-
-          <v-col cols="3">
-            <!-- <v-select
-              :disabled="!download.type"
-              :items="download.type == 'video' ? video_formats : audio_formats"
-              v-model="download.format"
-              label="Format"
-            ></v-select> -->
-          </v-col>
-
+        <v-row align="baseline" class="text-center" justify="end">
           <v-col cols="3">
             <v-select
               :disabled="progress == true || typeof progress == 'number'"
@@ -248,7 +214,7 @@ export default {
       for (let v of vmp4s) {
         this.resolutions.push({ text: v.qualityLabel, value: v.itag });
       }
-      this.resolution = this.resolutions[0];
+      this.resolution = this.resolutions[0].value;
 
       this.loading = false;
     },
@@ -278,6 +244,7 @@ export default {
             tracker.audio = { downloaded, total };
           }
         );
+        console.log(this.resolution.value);
         const video = ytdl(this.vid, { quality: this.resolution }).on(
           "progress",
           (_, downloaded, total) => {
@@ -291,11 +258,15 @@ export default {
               (tracker.audio.total + tracker.video.total)) *
             100;
           this.time = moment(Date.now() - tracker.start).format("mm:ss");
-          this.message = `${(Math.floor(this.progress * 10) / 10).toFixed(
-            1
-          )}% downloaded - time
-      elapsed: ${this.time}`;
-          remote.getCurrentWindow().setProgressBar(this.progress / 100);
+          if ((Math.floor(this.progress * 10) / 10).toFixed(1) == 100) {
+            this.message = `Finalizing download - time elapsed: ${this.time}`;
+            remote.getCurrentWindow().setProgressBar(this.progress / 100);
+          } else {
+            this.message = `${(Math.floor(this.progress * 10) / 10).toFixed(
+              1
+            )}% downloaded - time elapsed: ${this.time}`;
+            remote.getCurrentWindow().setProgressBar(this.progress / 100);
+          }
         }, 100);
 
         ffmpegProcess = cp.spawn(
@@ -333,6 +304,10 @@ export default {
         ffmpegProcess.on("exit", (err) => {
           console.log("exit", err);
           this.cancel();
+        });
+
+        ffmpegProcess.on("error", (err) => {
+          console.log(err);
         });
 
         ffmpegProcess.stdio[3].on("data", (chunk) => {
@@ -385,8 +360,6 @@ export default {
   mounted() {
     ipcRenderer.on("url", (e, url) => {
       this.vid = url.substring(7);
-      // if (this.vid.includes("https://www.youtube.com/watch?v="))
-      //   this.vid_includes_url = true;
       this.search();
     });
   },

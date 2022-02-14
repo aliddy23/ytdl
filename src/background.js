@@ -6,6 +6,8 @@ import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
+let win;
+
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
@@ -21,7 +23,7 @@ if (process.defaultApp) {
 }
 
 async function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 560,
     height: 600,
     titleBarStyle: "hiddenInset",
@@ -43,28 +45,36 @@ async function createWindow() {
     createProtocol("app");
     win.loadURL("app://./index.html");
   }
+}
 
+app.whenReady().then(() => {
   const gotTheLock = app.requestSingleInstanceLock();
 
   if (!gotTheLock) {
     app.quit();
   } else {
     app.on("second-instance", (event, commandLine, workingDirectory) => {
-      if (mainWindow) {
-        if (mainWindow.isMinimized()) mainWindow.restore();
-        mainWindow.focus();
+      if (win) {
+        if (win.isMinimized()) win.restore();
+        win.focus();
       }
     });
 
     app.on("open-url", (event, url) => {
-      win.webContents.send("url", url);
+      if (BrowserWindow.getAllWindows().length === 0) createWindow();
+      setTimeout(() => {
+        win.webContents.send("url", url);
+      }, 1000);
     });
   }
 
   app.on("open-url", (event, url) => {
-    win.webContents.send("url", url);
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    setTimeout(() => {
+      win.webContents.send("url", url);
+    }, 1000);
   });
-}
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

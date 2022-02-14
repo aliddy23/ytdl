@@ -23,7 +23,7 @@
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vuetify": "^2.4.0",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.10.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
