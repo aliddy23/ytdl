@@ -1,16 +1,16 @@
 {
-  "manifest_version": 3,
-  "name": "YouTube Downloader Connector",
-  "version": "1.0.0",
-  "description": "Browser plugin for YouTube Downloader.",
-  "icons": {
-    "48": "logo.png"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {
-    "default_icon": "logo.png"
-  },
-  "permissions": ["tabs"]
+	"manifest_version": 3,
+	"name": "YouTube Downloader Connector",
+	"version": "1.0.0",
+	"description": "Browser plugin for YouTube Downloader.",
+	"icons": {
+		"48": "logo.png"
+	},
+	"background": {
+		"service_worker": "background.js"
+	},
+	"action": {
+		"default_icon": "logo.png"
+	},
+	"permissions": ["tabs"]
 }
