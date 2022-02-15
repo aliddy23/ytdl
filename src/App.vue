@@ -107,10 +107,8 @@
         <h5 class="text-h5 mt-3 mb-1 text-truncate">{{ video.title }}</h5>
         <p class="grey--text mb-3 pb-0">
           By
-          <a
-            class="grey--text"
-            @click="openExternal(video.author.channel_url)"
-            >{{ video.author.name }}</a
+          <a class="grey--text" @click="openExternal(video.author.channel_url)"
+            >{{ video.author.name }}Test</a
           >
         </p>
         <v-row align="baseline" class="text-center" justify="end">
