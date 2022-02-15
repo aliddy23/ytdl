@@ -31,13 +31,14 @@ async function createWindow() {
 		titleBarOverlay: true,
 		resizable: false,
 		title: "YouTube Downloader",
+		frame: false,
 		webPreferences: {
 			enableRemoteModule: true,
 			nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
 			contextIsolation: false,
 		},
 	});
-	win.setWindowButtonVisibility(true);
+	if (process.platform == "darwin") win.setWindowButtonVisibility(true);
 
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
