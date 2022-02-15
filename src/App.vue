@@ -20,7 +20,12 @@
         >
           <img
             src="./assets/logo.png"
-            style="margin-right: 4px; margin-top: 3px; height: 18px"
+            style="
+              margin-right: 4px;
+              margin-top: 3px;
+              height: 18px;
+              -webkit-user-drag: none;
+            "
           />
           <span style="margin-top: 2px" class="mr-2">YouTube Downloader</span>
         </div>
@@ -55,7 +60,12 @@
         <div key="logo" style="display: inline-flex !important">
           <img
             src="./assets/logo.png"
-            style="height: 24px; margin-right: 4px; margin-top: 1px"
+            style="
+              height: 24px;
+              margin-right: 4px;
+              margin-top: 1px;
+              -webkit-user-drag: none;
+            "
           />
           <span style="margin-right: 4px; margin-top: 3px"
             >YouTube Downloader</span
@@ -244,7 +254,7 @@ export default {
             tracker.audio = { downloaded, total };
           }
         );
-        console.log(this.resolution.value);
+        console.log(this.resolution);
         const video = ytdl(this.vid, { quality: this.resolution }).on(
           "progress",
           (_, downloaded, total) => {
@@ -270,7 +280,7 @@ export default {
         }, 100);
 
         ffmpegProcess = cp.spawn(
-          ffmpeg,
+          `${__dirname}\\..\\app.asar.unpacked\\node_modules\\ffmpeg-static\\ffmpeg.exe`,
           [
             "-strict",
             "experimental",

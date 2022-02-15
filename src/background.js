@@ -50,7 +50,6 @@ async function createWindow() {
 }
 
 app.whenReady().then(() => {
-	autoUpdater.checkForUpdatesAndNotify();
 	const gotTheLock = app.requestSingleInstanceLock();
 
 	if (!gotTheLock) {
@@ -77,6 +76,8 @@ app.whenReady().then(() => {
 			win.webContents.send("url", url);
 		}, 1000);
 	});
+
+	autoUpdater.checkForUpdatesAndNotify();
 });
 
 app.on("window-all-closed", () => {
