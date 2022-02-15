@@ -6,11 +6,11 @@
 		"name": "Aidan Liddy",
 		"email": "aidanliddy@outlook.com"
 	},
-	"homepage": "https://www.aidanliddy.com",
+	"homepage": "https://wwww.aidanliddy.com/ytdl",
 	"scripts": {
-		"build": "vue-cli-service electron:build",
+		"build": "vue-cli-service electron:build -w",
 		"serve": "vue-cli-service electron:serve",
-		"release": "vue-cli-service electron:build --publish always -mw",
+		"release": "vue-cli-service electron:build --publish always -w",
 		"postinstall": "electron-builder install-app-deps",
 		"postuninstall": "electron-builder install-app-deps"
 	},

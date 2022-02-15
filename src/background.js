@@ -126,6 +126,7 @@ menu.append(
 				role: "about",
 			},
 			{ role: "reload" },
+			{ role: "toggleDevTools" },
 			{ type: "separator" },
 			{ role: "services" },
 			{ type: "separator" },

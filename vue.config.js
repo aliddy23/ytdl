@@ -13,6 +13,7 @@ module.exports = {
 					"node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg",
 					"node_modules/ffmpeg-static/index.js",
 					"node_modules/ffmpeg-static/package.json",
+					"node_modules/ffmpeg-static/ffmpeg.exe",
 				],
 				productName: "YouTube Downloader",
 				appId: "com.aidanliddy.ytdl",
